@@ -32,6 +32,7 @@ def blog():
         new_post = Blog(title, body)
         db.session.add(new_post)
         db.session.commit()
+        blog_id = Blog.query.get(id)
 
 
     if request.method == "GET":
@@ -53,12 +54,17 @@ def newpost():
     if request.method == 'POST':
         title = request.form['blog-title']
         body = request.form['blog-body']
+        if len(body)==0 and len(title)==0:
+            title_error="Please fill in the title"
+            body_error="Please fill in the blog text"
+            return render_template("newpost.html", title_error=title_error, body_error=body_error)
         if len(title)==0:
             title_error="Please fill in the title"
             return render_template("newpost.html", title_error=title_error)
         if len(body)==0:
             body_error="Please fill in the blog text"
             return render_template("newpost.html", body_error=body_error)
+        
         else:
             new_post = Blog(title, body)
             db.session.add(new_post)
