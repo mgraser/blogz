@@ -146,7 +146,6 @@ def newpost():
             new_post = Blog(title, body, owner)
             db.session.add(new_post)
             db.session.commit()
-            #new_blog = Blog.query.filter_by(id=new_post.id).first()
             return render_template('blog_post.html', post=new_post)
     else:
         #posts = Blog.query.all()
