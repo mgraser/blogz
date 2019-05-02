@@ -109,7 +109,12 @@ def blog():
         if not request.args:
             posts = Blog.query.all()
             return render_template('blogs.html',title="Blog Posts", posts=posts)
-        if request.args:
+        if request.args.get('user'):
+            user = request.args.get('user')
+            user_posts = Blog.query.filter_by(owner_id=user).all()
+            return render_template('singleUser.html', user_posts=user_posts)
+
+        else:
             blog_id = request.args.get('id')
             posts = Blog.query.filter_by(id=blog_id).first()
             return render_template('blog_post.html',title="Blog Entry", post=posts)
@@ -151,7 +156,6 @@ def newpost():
 def index():
     users = User.query.all()
     return render_template('index.html', users=users)
-
 
 
 
